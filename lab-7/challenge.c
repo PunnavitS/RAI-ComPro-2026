@@ -16,7 +16,7 @@ for(i=1;i<size;i++)
 {
     Ptr = &numarray[i-1];
     temp1 = *Ptr;
-    Ptr = &numarray[i];git add *.c
+    Ptr = &numarray[i];
     temp2 = *Ptr;
     if(temp1 < temp2 ){
     Ptr = &numarray[i];

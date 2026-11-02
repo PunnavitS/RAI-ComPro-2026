@@ -7,6 +7,7 @@ int main()
     int *ptr;
     ptr = &test;
     printf("The address test variable is at: %p\n", ptr);
+    printf("The value of test via pointer is: %d\n", *ptr);
 
     int temp1;
     ptr = &test;

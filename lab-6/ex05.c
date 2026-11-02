@@ -21,7 +21,7 @@ for(i=0;i<3;i++)
     totmin = totmin+time[i].min;
     totsec = totsec+time[i].sec;
 }
-tsec ot= (totmin*60) + totsec;
+totsec = (totmin*60) + totsec;
 
 printf ("Total time elasped: %d second(s)\n", totsec);
 

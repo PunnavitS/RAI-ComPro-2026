@@ -4,13 +4,11 @@
 
 #define PI 3.14
 
-float deg_rad(float); /*Function Prototype*/
+void printname(int); /*Function Prototype*/
 
-int main()
-{
 struct namelastname{
-char name[20];
-char surname[20];
+char name[50];
+char surname[50];
 
 };
 struct namelastname fullname[3];
@@ -21,6 +19,9 @@ int age;
 
 };
 struct info name[3];
+int number;
+int main()
+{
 int i = 0;
 
 for(i=0;i<3;i++)
@@ -32,24 +33,17 @@ printf(" age:");
 scanf("%d",&name[i].age);
 }
 
-for(i=0;i<3;i++)
-{
-printf("\n %s,%d\n",name[i].fullname[i].name,name[i].age);
+printf("How many student to print?\n");
+scanf("%d", &number);
+printname(number);
 }
 
-float deg,rad;
-/*printf ("Enter Degree : ");
-scanf ("%f",&deg);
-rad = deg_rad(deg); //printf ("%f->%f\n",deg,rad);
-printf ("sin(%.2f) = %.3f\n",deg,sin(rad));
-printf ("cos(%.2f) = %.3f\n",deg,cos(rad));
-printf ("tan(%.2f) = %.3f\n",deg,tan(rad));
-return 0;*/
-}
-float deg_rad(float num)
-{
-float ans;
-ans = num * PI / 180;
-return(ans);
-}
 
+
+void printname(int numprint){
+    int n = 0;
+for(n=0;n<numprint;n++)
+{
+printf("\n %s,%d\n",name[n].fullname[n].name,name[n].age);
+} 
+}

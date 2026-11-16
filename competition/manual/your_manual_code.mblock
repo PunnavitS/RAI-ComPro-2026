@@ -1,0 +1,96 @@
+import gamepad
+from cyberpi import *
+import time
+
+multiplier1 = 0.87 #Encoder forward
+multiplier1_back = 0.88 #Encoder backward
+multiplier2 = 1 #Yellow motor (M2) forward
+multiplier2_back = 1 #Yellow motor (M2) backward
+turn_speed = 2
+servovalue = 0
+lower_arm_Servo = 90
+upper_arm_Servo = 90
+grip_servo = 1
+
+console.println("start")
+console.println("Hello world!")
+mbot2.servo_set(25,'s3')
+mbot2.servo_set(60,'s1')
+mbot2.servo_set(90,'s4')
+while True:
+    ValLX = gamepad.get_joystick('Lx')
+    ValRY = gamepad.get_joystick('Ry')
+    if ValRY > 10:
+        mbot2.motor_set((-ValRY/2), 'M1')
+    elif ValRY < -10:
+        mbot2.motor_set((-ValRY/2), 'M1')
+    else:
+        mbot2.motor_set(0, 'M1')
+        
+        
+        
+    
+    ValLY = gamepad.get_joystick('Ly')
+    
+    if gamepad.is_key_pressed('R1'):
+        console.println("R1 pressed")
+        if servovalue == 1:
+            mbot2.servo_set(15,'s1')
+            servovalue = 0
+            time.sleep(0.6)
+        elif servovalue == 0:
+            mbot2.servo_set(60,'s1')
+            servovalue = 1
+            time.sleep(0.6)
+            
+    elif gamepad.is_key_pressed('L1'):
+        console.println("L1 pressed")
+    elif gamepad.is_key_pressed('R2'):
+        console.println("R2 pressed")
+        mbot2.drive_power(0,200)
+        time.sleep(0.070)
+        mbot2.drive_power(0,-25)
+        time.sleep(0.275)
+        mbot2.drive_power(0,0)
+        
+        
+    elif gamepad.is_key_pressed('L2'):
+        console.println("L2 pressed")
+    elif gamepad.is_key_pressed('N1'):
+        console.println("N1 pressed")
+    elif gamepad.is_key_pressed('N2'):
+        console.println("N2 pressed")
+        
+    elif gamepad.is_key_pressed('N3'):
+        console.println("N3 pressed")
+        
+    elif gamepad.is_key_pressed('N4'):
+        console.println("N4 pressed")
+    elif gamepad.is_key_pressed('Left'):
+        console.println("Left pressed")
+    elif gamepad.is_key_pressed('Right'):
+        console.println("Right pressed")
+    elif gamepad.is_key_pressed('Up'):
+        console.println("Up pressed")
+        if lower_arm_Servo <= 180:
+            lower_arm_Servo = lower_arm_Servo + 5
+            mbot2.servo_set(lower_arm_Servo,'s1')
+    elif gamepad.is_key_pressed('Down'):
+        console.println("Down pressed")
+        if lower_arm_Servo >= 0:
+            lower_arm_Servo = lower_arm_Servo - 5
+            mbot2.servo_set(lower_arm_Servo,'s1')
+        
+    # basic movement
+    if ValLY > 10:
+        mbot2.drive_power((ValLY*multiplier1),0)
+        mbot2.motor_set((ValLY*multiplier2*(-1)), 'M2')
+    elif ValLY < -10:
+        mbot2.drive_power((ValLY*multiplier1_back),0) 
+        mbot2.motor_set((ValLY*multiplier2_back*(-1)), 'M2')
+    elif((ValLY <= 10) and (ValLY >= -10) and (abs(ValLX) > 10)):
+        mbot2.drive_power((ValLX*multiplier1*turn_speed),0)
+        mbot2.motor_set((ValLX*multiplier2*turn_speed), 'M2')
+    else:
+        mbot2.drive_power(0,0)
+        mbot2.motor_set(0, 'M2')

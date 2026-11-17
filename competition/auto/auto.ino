@@ -14,8 +14,6 @@ int left_echo = 11;
 int left_trig = 10;
 int right_echo = 9;
 int right_trig = 8;
-
-int stepTaken = 0;
 int startPos = 0;
 //FMPS is Final map and Position Start, 1 is Start A of normal map. 2 is Start B of normal map. 3 is Start C of normal map. 4 is Start A of mirrored map. 5 is Start B of mirrored map. 6 is Start C of mirrored map.
 int FMPS = 1;
@@ -33,6 +31,12 @@ int repetition = 0;
 int first_turn = 0;
 float time = 0;
 
+struct list {
+int moves[5] = {1,2,3,4};
+int stepTaken = 0;
+} movelog;
+
+int *ptr;
 // Switchpin 1 = A1
 //  Switchpin2 =  A2
 
@@ -232,7 +236,8 @@ void loop() {
           }
 
           moveForward(505);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[0];
           previous_action = 2;
           //Serial.println(stepTaken);
         }
@@ -250,9 +255,10 @@ void loop() {
           }
           moveForward(100);
           reverse(100);
-          turnRight(320);
+          turnRight(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
           previous_action = 1;
 
           //Serial.println(stepTaken);
@@ -265,8 +271,8 @@ void loop() {
             repetition = repetition + 1;
           }
 
-          moveForward(505);
-          stepTaken = stepTaken + 1;
+          moveForward(500);
+          movelog.stepTaken = movelog.stepTaken + 1;
           previous_action = 2;
           //Serial.println(stepTaken);
         }
@@ -283,7 +289,8 @@ void loop() {
           reverse(100);
           turnLeft(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[2];
           previous_action = 3;
           //Serial.println(stepTaken);
         }
@@ -300,7 +307,8 @@ void loop() {
           reverse(100);
           turnLeft(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[2];
           previous_action = 4;
           //Serial.println(stepTaken);
         }
@@ -317,7 +325,8 @@ void loop() {
           reverse(100);
           turnRight(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
           previous_action = 5;
           //Serial.println(stepTaken);
         }
@@ -334,7 +343,8 @@ void loop() {
           reverse(100);
           turnLeft(310);
           moveForward(500);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[2];
           previous_action = 6;
           //Serial.println(stepTaken);
         }
@@ -348,6 +358,8 @@ void loop() {
             repetition = 0;
           }
           turnRight(310);
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
           previous_action = 7;
         }
 
@@ -364,16 +376,20 @@ void loop() {
             reverse(100);
             turnRight(310);
             moveForward(475);
-            stepTaken = stepTaken + 1;
+            movelog.stepTaken = movelog.stepTaken + 1;
+            ptr = &movelog.moves[1];
           } else if (previous_action == 2) {
             moveForward(510);
-            stepTaken = stepTaken + 1;
+            movelog.stepTaken = movelog.stepTaken + 1;
+            ptr = &movelog.moves[0];
 
           } else if (previous_action == 3 || previous_action == 4 || previous_action == 6) {
             moveForward(100);
             reverse(100);
             turnRight(310);
             moveForward(475);
+            movelog.stepTaken = movelog.stepTaken + 1;
+            ptr = &movelog.moves[1];
           }
 
           previous_action = 8;
@@ -403,7 +419,8 @@ void loop() {
           reverse(100);
           turnLeft(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[2];
           previous_action = 1;
 
           //Serial.println(stepTaken);
@@ -417,7 +434,8 @@ void loop() {
           }
 
           moveForward(510);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[0];
           previous_action = 2;
           //Serial.println(stepTaken);
         }
@@ -433,7 +451,8 @@ void loop() {
           reverse(100);
           turnRight(310);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
           previous_action = 3;
           //Serial.println(stepTaken);
         }
@@ -451,7 +470,8 @@ void loop() {
         reverse(100);
         turnLeft(310);
         moveForward(475);
-        stepTaken = stepTaken + 1;
+        movelog.stepTaken = movelog.stepTaken + 1;
+        ptr = &movelog.moves[2];
         previous_action = 4;
         //Serial.println(stepTaken);
       }
@@ -468,7 +488,8 @@ void loop() {
         reverse(100);
         turnRight(320);
         moveForward(475);
-        stepTaken = stepTaken + 1;
+        movelog.stepTaken = movelog.stepTaken + 1;
+        ptr = &movelog.moves[1];
         previous_action = 5;
         //Serial.println(stepTaken);
       }
@@ -485,7 +506,8 @@ void loop() {
         reverse(100);
         turnLeft(320);
         moveForward(475);
-        stepTaken = stepTaken + 1;
+        movelog.stepTaken = movelog.stepTaken + 1;
+        ptr = &movelog.moves[2];
         previous_action = 6;
         //Serial.println(stepTaken);
       }
@@ -499,6 +521,7 @@ void loop() {
           repetition = 0;
         }
         turnRight(320);
+        ptr = &movelog.moves[1];
         previous_action = 7;
       }
 
@@ -515,16 +538,21 @@ void loop() {
           reverse(100);
           turnRight(320);
           moveForward(475);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
         } else if (previous_action == 2) {
           moveForward(510);
-          stepTaken = stepTaken + 1;
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[0];
 
         } else if (previous_action == 3 || previous_action == 4 || previous_action == 6) {
           moveForward(100);
           reverse(100);
           turnRight(320);
           moveForward(500);
+          movelog.stepTaken = movelog.stepTaken + 1;
+          ptr = &movelog.moves[1];
+          
         } else if (previous_action == 9) {
           if (cm_front >= D2WT && cm_left >= D2WT && cm_right >= D2WT) {
 
@@ -534,7 +562,8 @@ void loop() {
             }
 
             moveForward(510);
-            stepTaken = stepTaken + 1;
+            movelog.stepTaken = movelog.stepTaken + 1;
+            ptr = &movelog.moves[0];
             previous_action = 2;
             //Serial.println(stepTaken);
           }
@@ -563,5 +592,20 @@ void loop() {
   time = time + 333;
   Serial.print("current time: ");
   Serial.println(time / 1000);
+  Serial.print("previous move: ");
+  if (*ptr == 1){
+    Serial.print ("Move Forward");
+  }
+  else if (*ptr == 2){
+    Serial.print ("Turn Right");
+  }
+    else if (*ptr == 3){
+    Serial.print ("Turn Left");
+  }
+    else if (*ptr == 4){
+    Serial.print ("Reverse");
+  }
+  Serial.print(" as move number: ");
+  Serial.println((movelog.stepTaken)+1);
   delay(333);
 }
